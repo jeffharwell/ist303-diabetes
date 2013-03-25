@@ -25,6 +25,18 @@ var app = {
             this.store.findById(Number(match[1]), function(employee) {
                 $('body').html(new EmployeeView(employee).render().el)
             });
+            return;
+        }
+
+        match = hash.match(app.entryURL);
+
+        if (match) {
+            console.log('Got a match');
+            console.log('Looking for '+match[1]);
+            var entrytype;
+            entrytype.entryType = match[1]
+            $('body').html(new DataEntryView(entrytype).render().el);
+            return;
         }
     },
 
@@ -59,6 +71,7 @@ var app = {
         
         // regular expression that matches employee details urls
         this.detailsURL = /^#employees\/(\d{1,})/;
+        this.entryURL = /^#enter\/(glucose|exercise)/;
 
         // Register our event listeners
         self.registerEvents();

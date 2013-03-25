@@ -5,17 +5,35 @@
     </head>
 <body>
 
-<!-- Handlebar Template -->
+<!-- Handlebar Templates -->
+
+<!-- Original home header
 <script id="home-tpl" type="text/x-handlebars-template">
     <div class='header'><h1>Home</h1></div>
     <div class='search-bar'><input class='search-key' type="search"/></div>
     <div class="scroll"><ul class='employee-list'></ul></div>
 </script>
+-->
+<script id="home-tpl" type="text/x-handlebars-template">
+    <div class='header'><h1>Diabetes Management</h1></div>
+    <a href='#enter/glucose' class="buttonlarge">Enter Glucose</a><br/>
+    <a href='#enter/physical' class="buttonlarge">Enter Physical Activity</a>
+</script>
+
+<script id="dataentry-tpl" type="text/x-handlebars-template">
+    <div class='header'><a href='#' class="button header-button header-button-left">Back</a><h1>Enter {{this.title}}</h1></div>
+    <div>Instructions would go here</div>
+    <div><input class='date_entry' type="text"/><br/></div>
+    <div><a href='#' class="buttonlarge">Submit</a></div>
+</script>
+
 <script id="employee-li-tpl" type="text/x-handlebars-template">
     {{#.}}
     <li><a href="#employees/{{this.id}}">{{this.firstName}} {{this.lastName}}<br/>{{this.title}}</a></li>
     {{/.}}
 </script>
+
+<!-- Employee View Template -->
 <script id="employee-tpl" type="text/x-handlebars-template">
     <div class='header'><a href='#' class="button header-button header-button-left">Back</a><h1>Details</h1></div>
     <div class='details'>
@@ -41,6 +59,7 @@
 <!-- Must define templates before main.js or Handlebars will error out -->
 <script src="js/HomeView.js"></script>
 <script src="js/EmployeeView.js"></script>
+<script src="js/DataEntryView.js"></script>
 <script src="js/main.js"></script>
 
 </body>
