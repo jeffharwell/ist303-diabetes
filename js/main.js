@@ -21,6 +21,7 @@ var app = {
 
         if (match) {
             console.log('Got a match');
+            console.log('Looking for '+match[1]);
             this.store.findById(Number(match[1]), function(employee) {
                 $('body').html(new EmployeeView(employee).render().el)
             });
@@ -30,7 +31,7 @@ var app = {
     registerEvents: function() {
         var self = this;
         // Event listener that listens to the URL has tag
-        $(window).on('hashchanges', $.proxy(this.route, this));
+        $(window).on('hashchange', $.proxy(this.route, this));
 
 
         // Check if the browser supports touch events
