@@ -1,6 +1,7 @@
 var EmployeeView = function(employee) {
 
     this.render = function() {
+        console.log("Looking at "+employee.firstName);
         this.el.html(EmployeeView.template(employee));
         return this;
     };
@@ -13,4 +14,4 @@ var EmployeeView = function(employee) {
 
 }
 
-EmployeeView.template = Handlebars.compile($("employee-tpl").html());
+EmployeeView.template = Handlebars.compile($("#employee-tpl").html());

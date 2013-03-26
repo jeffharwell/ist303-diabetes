@@ -20,7 +20,7 @@ var app = {
         var match = hash.match(app.detailsURL);
 
         if (match) {
-            console.log('Got a match');
+            console.log('Got a match Employee Directory');
             console.log('Looking for '+match[1]);
             this.store.findById(Number(match[1]), function(employee) {
                 $('body').html(new EmployeeView(employee).render().el)
@@ -31,11 +31,10 @@ var app = {
         match = hash.match(app.entryURL);
 
         if (match) {
-            console.log('Got a match');
+            console.log('Got a match for Data Entry');
             console.log('Looking for '+match[1]);
-            var entrytype;
-            entrytype.entryType = match[1]
-            $('body').html(new DataEntryView(entrytype).render().el);
+            var context = {entryType: match[1]};
+            $('body').html(new DataEntryView(context).render().el);
             return;
         }
     },
@@ -71,7 +70,7 @@ var app = {
         
         // regular expression that matches employee details urls
         this.detailsURL = /^#employees\/(\d{1,})/;
-        this.entryURL = /^#enter\/(glucose|exercise)/;
+        this.entryURL = /^#enter\/(glucose|physical)/;
 
         // Register our event listeners
         self.registerEvents();
