@@ -26,9 +26,15 @@ var DiabetesStorageStore = function(successCallback, errorCallback) {
         callLater(callback, JSON.parse(window.localStorage.getItem("physicalactivity")));
     }
 
-    this.getAllGlucoseLevel = function(callback) {
-        var data = JSON.parse(window.localStorage.getItem("glucoselevels"))
-        callLater(callback, data);
+    this.getAllGlucoseLevel = function(context, callback) {
+        var d = JSON.parse(window.localStorage.getItem("glucoselevels"));
+        context['data'] = d;
+        for (var i = 0; i < context.data.length; i++) {
+            console.log("Got Data "+d[i].timestamp+" "+d[i].level);
+            var timestamp_obj = new Date(d[i].timestamp);
+            d[i]['timestamp_string'] = timestamp_obj.toString()
+        }
+        callLater(callback, context);
     }
 
     // Used to simulate async calls. This is done to provide a consistent interface with stores (like WebSqlStore)
@@ -44,6 +50,9 @@ var DiabetesStorageStore = function(successCallback, errorCallback) {
     var getRandomGlucoseValue = function() {
         // This is just a stub, look up the random function and 
         // implement something here
+        var min = 100;
+        var max = 200;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
         return 15;
     }
 
@@ -98,7 +107,7 @@ var DiabetesStorageStore = function(successCallback, errorCallback) {
     var dates = []
     for (i=100; i>=0; i--) {
         var new_date = current_unix_time - i*four_hours;
-        addGlucoseLevel(getRandomGlucoseValue, new_date)
+        addGlucoseLevel(getRandomGlucoseValue(), new_date)
     }
 
     /* Code from the demo, not used */

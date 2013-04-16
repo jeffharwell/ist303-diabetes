@@ -11,9 +11,8 @@ var DataTableView = function(context) {
             this.el.html(HomeView.template());            
             return this; // is that right??
         }
-        context.data = 
         console.log("Going to render entry for "+context.entryType);
-        this.el.html(DataEntryView.template(context));
+        this.el.html(DataTableView.template(context));
         return this;
     };
 

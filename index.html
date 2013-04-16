@@ -18,6 +18,8 @@
     <div class='header'><h1>Diabetes Management</h1></div>
     <a href='#enter/glucose' class="buttonlarge">Enter Glucose</a><br/>
     <a href='#enter/physical' class="buttonlarge">Enter Physical Activity</a>
+    <a href='#view/glucose' class="buttonlarge">View Glucose Data</a><br/>
+    <a href='#view/physical' class="buttonlarge">View Physical Activity</a>
 </script>
 
 <script id="dataentry-tpl" type="text/x-handlebars-template">
@@ -29,8 +31,14 @@
 
 <script id="datatable-tpl" type="text/x-handlebars-template">
     <div class='header'><a href='#' class="button header-button header-button-left">Back</a><h1>Viewing Data For {{this.title}}</h1></div>
-    <div>Text Goes Here</div>
-    <div>{{#list this.data}}{{timestamp} {level}}{{/list}}</div>
+    <div>Text Goes Here v1</div>
+    <div>
+        <ul>
+            {{#each this.data}}
+            <li>{{timestamp_string}} {{level}}
+            {{/each}}
+        </ul>
+    </div>
 </script>
 
 
