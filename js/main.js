@@ -17,6 +17,7 @@ var app = {
             return;
         }
 
+        /* The Old Employee Directory Demo Code */
         var match = hash.match(app.detailsURL);
 
         if (match) {
@@ -28,6 +29,7 @@ var app = {
             return;
         }
 
+        /* Data Entry */
         match = hash.match(app.entryURL);
 
         if (match) {
@@ -35,6 +37,19 @@ var app = {
             console.log('Looking for '+match[1]);
             var context = {entryType: match[1]};
             $('body').html(new DataEntryView(context).render().el);
+            return;
+        }
+
+        /* Data Viewing */
+        match = hash.match(app.viewURL);
+
+        if (match) {
+            console.log('Got a match for Data Viewing');
+            console.log('Looking for context '+match[1]);
+            var context = {entryType: match[1]}
+            this.store.getAllGlucoseLevel(context, function(data) {
+                $('body').html(new DataTableView(context).render().el);
+            });
             return;
         }
     },
@@ -71,12 +86,13 @@ var app = {
         // regular expression that matches employee details urls
         this.detailsURL = /^#employees\/(\d{1,})/;
         this.entryURL = /^#enter\/(glucose|physical)/;
+        this.viewURL = /^#view\/(glucose|physical)/;
 
         // Register our event listeners
         self.registerEvents();
 
         // Initialize our Memore Store and render the home page
-        this.store = new MemoryStore(function() {
+        this.store = new DiabetesStorageStore(function() {
             self.showAlert('Store Initialized', 'Info');
             self.route();
         });

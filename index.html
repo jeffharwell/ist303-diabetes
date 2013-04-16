@@ -27,6 +27,13 @@
     <div><a href='#' class="buttonlarge">Submit</a></div>
 </script>
 
+<script id="datatable-tpl" type="text/x-handlebars-template">
+    <div class='header'><a href='#' class="button header-button header-button-left">Back</a><h1>Viewing Data For {{this.title}}</h1></div>
+    <div>Text Goes Here</div>
+    <div>{{#list this.data}}{{timestamp} {level}}{{/list}}</div>
+</script>
+
+
 <script id="employee-li-tpl" type="text/x-handlebars-template">
     {{#.}}
     <li><a href="#employees/{{this.id}}">{{this.firstName}} {{this.lastName}}<br/>{{this.title}}</a></li>
@@ -53,13 +60,15 @@
 <!-- Order is important here -->
 <script src="phonegap.js"></script>
 <script src="lib/jquery-1.8.2.min.js"></script>
-<script src="js/storage/memory-store.js"></script>
+<!-- <script src="js/storage/memory-store.js"></script> -->
+<script src="js/storage/diabetes-ls-store.js"></script>
 <script src="lib/handlebars.js"></script>
 <script src="lib/iscroll.js"></script>
 <!-- Must define templates before main.js or Handlebars will error out -->
 <script src="js/HomeView.js"></script>
 <script src="js/EmployeeView.js"></script>
 <script src="js/DataEntryView.js"></script>
+<script src="js/DataTableView.js"></script>
 <script src="js/main.js"></script>
 
 </body>

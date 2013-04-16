@@ -1,4 +1,4 @@
-var DataEntryView = function(context) {
+var DataTableView = function(context) {
 
     this.render = function() {
         if (context.entryType == "glucose") {
@@ -11,6 +11,7 @@ var DataEntryView = function(context) {
             this.el.html(HomeView.template());            
             return this; // is that right??
         }
+        context.data = 
         console.log("Going to render entry for "+context.entryType);
         this.el.html(DataEntryView.template(context));
         return this;
@@ -24,4 +25,4 @@ var DataEntryView = function(context) {
 
 }
 
-DataEntryView.template = Handlebars.compile($("#dataentry-tpl").html());
+DataTableView.template = Handlebars.compile($("#datatable-tpl").html());
