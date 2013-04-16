@@ -47,8 +47,8 @@ var app = {
             console.log('Got a match for Data Viewing');
             console.log('Looking for context '+match[1]);
             var context = {entryType: match[1]}
-            this.store.getAllGlucoseLevel(context, function(data) {
-                $('body').html(new DataTableView(context).render().el);
+            this.store.getAllGlucoseLevel(context, function(callback_context) {
+                $('body').html(new DataTableView(callback_context).render().el);
             });
             return;
         }
