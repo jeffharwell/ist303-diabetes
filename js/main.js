@@ -93,7 +93,7 @@ var app = {
 
         // Initialize our Memore Store and render the home page
         this.store = new DiabetesStorageStore(function() {
-            self.showAlert('Store Initialized', 'Info');
+           
             self.route();
         });
     }
