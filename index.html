@@ -24,26 +24,54 @@
 
 <script id="dataentry-tpl" type="text/x-handlebars-template">
     <div class='header'><a href='#' class="button header-button header-button-left">Back</a><h1>Enter {{this.title}}</h1></div>
-    <div>glucose value</div>
-    <div><input class='date_entry' type="text"/><br/></div>
-	<div>glucose value</div>
-    <div><select>
-<option value="post prandial" >POST PRANDIAL</option>	
-	<option value="pre prandial" >PRE PRANDIAL</option>	
+    <h1><div id='status_message'>Enter Your Latest Glucose Level</div></h1>
+    <br>
+    <div>Blood Glucose Level</div>
+    <div><input class='date_entry' id="level_input" type="text"/><br/></div>
+    <br>
+	<div>Before or After Eating?</div>
+    <div><select id="prandial_select">
+    <option value="postprandial" >POSTPRANDIAL</option>	
+	<option value="preprandial" >PREPRANDIAL</option>	
 	</select>
 	<br/></div>
-    <div><a href='#' class="buttonlarge">Submit</a></div>
+    <br>
+    <div><a class="buttonlarge" id="glucoseLevelSubmit">Submit</a></div>
+
 </script>
+
+<script id="tabletemplate-tpl" type="text/x-handlebars-template">
+        <table border='0' width='100%'>
+            <tr class="table-header"><td>Time Recorded</td><td>Glucose Level</td><td>Prandial Relationship</td></tr>
+            </b>
+            {{#each this.data}}
+            <tr>
+                <td>{{timestamp_string}}</td><td>{{level}}</td><td>{{prandial}}</td>
+            </tr>
+            {{/each}}
+        </table>
+</script>
+
 
 <script id="datatable-tpl" type="text/x-handlebars-template">
     <div class='header'><a href='#' class="button header-button header-button-left">Back</a><h1>Viewing Data For {{this.title}}</h1></div>
-    <div>Text Goes Here v1</div>
-    <div>
-        <ul>
-            {{#each this.data}}
-            <li>{{timestamp_string}} {{level}}
-            {{/each}}
-        </ul>
+    <div class="scroll">
+            Days of History: <select id="days_of_history">
+                                <option value="all">ALL</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="60">60</option>
+                             </select>
+            <b>
+            <div id="table-data"/>
     </div>
 </script>
 
@@ -73,7 +101,7 @@
 
 <!-- Order is important here -->
 <script src="phonegap.js"></script>
-<script src="lib/jquery-1.8.2.min.js"></script>
+<script src="lib/jquery-1.9.1.min.js"></script>
 <!-- <script src="js/storage/memory-store.js"></script> -->
 <script src="js/storage/diabetes-ls-store.js"></script>
 <script src="lib/handlebars.js"></script>
@@ -83,6 +111,7 @@
 <script src="js/EmployeeView.js"></script>
 <script src="js/DataEntryView.js"></script>
 <script src="js/DataTableView.js"></script>
+<script src="js/Custom.js"></script>
 <script src="js/main.js"></script>
 
 </body>

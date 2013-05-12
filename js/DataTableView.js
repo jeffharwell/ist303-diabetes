@@ -8,13 +8,30 @@ var DataTableView = function(context) {
         } else {
             // This is probably a bug and we should dump back to 
             // home
-            this.el.html(HomeView.template());            
-            return this; // is that right??
+            window.location.hash = '';
+            return;
         }
         console.log("Going to render entry for "+context.entryType);
-        this.el.html(DataTableView.template(context));
+        $('body').html(DataTableView.template(context));
+        $('#table-data').html(DataTableView.tableTemplate(context));
+        this.bindListeners();
         return this;
     };
+
+    this.refreshTable = function() {
+        $('#table-data').html(DataTableView.tableTemplate(context));
+    };
+
+    this.bindListeners = function() {
+        $('#days_of_history').change(function() {
+            var currentvalue = $('#days_of_history>option:selected').val();
+            context["daysOfData"] = currentvalue;
+
+            // I wonder if there is a better way to do this?
+            context['contentStore'].getRangeGlucoseLevel(context, function(callback_context) {
+                new DataTableView(callback_context).refreshTable()});
+        });
+    }
 
     this.initialize = function() {
         this.el = $('<div/>');
@@ -25,3 +42,4 @@ var DataTableView = function(context) {
 }
 
 DataTableView.template = Handlebars.compile($("#datatable-tpl").html());
+DataTableView.tableTemplate = Handlebars.compile($("#tabletemplate-tpl").html());
