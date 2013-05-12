@@ -1,2 +1,3 @@
 ## Ignore all executables (in particular this will skip mongoose on windows)
 *.exe
+*.swp
