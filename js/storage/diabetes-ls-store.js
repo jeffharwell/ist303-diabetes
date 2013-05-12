@@ -36,6 +36,66 @@ var DiabetesStorageStore = function(successCallback, errorCallback) {
         getAllData(context, callback, d);
     }
 
+    this.getGlucosePhysicalData = function(context, callback) {
+        var glucose = JSON.parse(window.localStorage.getItem("glucoselevels"));
+        var physical = JSON.parse(window.localStorage.getItem("physicalactivity"));
+
+        // Create our filter
+        var days_to_show;
+        var current_timestamp = Date.now();
+        var cutoff_timestamp;
+        if (!context['daysOfData']) {
+            days_to_show = 'all';
+            cutoff_timestamp = 0; // Beginning of the epoch
+        } else {
+            days_to_show = context['daysOfData'];
+            cutoff_timestamp = current_timestamp - days_to_show*24*60*60*1000;
+        }
+
+        // Get the Glucose Data
+        var glucose_line = [];
+        var glucose_preprandial = [];
+        var glucose_postprandial = [];
+        for (var i = 0; i < glucose.length; i++) {
+            // Skip data that doesn't work in our filter
+            if (days_to_show != "all" && glucose[i].timestamp < cutoff_timestamp) {
+                continue;
+            }
+
+            glucose_line.push([glucose[i].timestamp, glucose[i].level, glucose[i].prandial]);
+            if (glucose[i].prandial == "preprandial" || glucose[i].prandial == "pre prandial") {
+                glucose_preprandial.push([glucose[i].timestamp, glucose[i].level, glucose[i].prandial]);
+            } else {
+                glucose_postprandial.push([glucose[i].timestamp, glucose[i].level, glucose[i].prandial]);
+            }
+        }
+        context['glucose_line'] = glucose_line;
+        context['glucose_preprandial'] = glucose_preprandial;
+        context['glucose_postprandial'] = glucose_postprandial;
+
+        // Get the Physical Activity Data
+        var physical_line = []
+        for (var i = 0; i < physical.length; i++) {
+            // Skip data that doesn't work in our filter
+            if (days_to_show != "all" && physical[i].timestamp < cutoff_timestamp) {
+                continue;
+            }
+
+            //physical_line.push([physical[i].timestamp, normalizeIntensity(physical[i].intensity, min, max), physical[i].type]);
+            physical_line.push([physical[i].timestamp, physical[i].intensity, physical[i].type]);
+        }
+        context['physical_line'] = physical_line
+
+
+        callLater(callback, context);
+    }
+
+    var normalizeIntensity = function(intensity, min, max) {
+        var partition = (max - min) / 5
+        var new_intensity = min + (partition * intensity)
+        return new_intensity
+    }
+
     var getAllData = function(context, callback, d) {
         context['data'] = d;
         for (var i = 0; i < context.data.length; i++) {

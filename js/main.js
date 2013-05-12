@@ -62,6 +62,17 @@ var app = {
             }
             return;
         }
+
+        /* Graphing */
+        match = hash.match(app.graphURl);
+        if (match) {
+            console.log('Got a match for Data Graphing');
+            var context = {'contentStore':this.store};
+            this.store.getGlucosePhysicalData(context, function(callback_context) {
+                new DataGraphView(callback_context).render();
+            });
+            return
+        }
     },
 
     registerEvents: function() {
@@ -97,6 +108,7 @@ var app = {
         this.detailsURL = /^#employees\/(\d{1,})/;
         this.entryURL = /^#enter\/(glucose|physical)/;
         this.viewURL = /^#view\/(glucose|physical)/;
+        this.graphURL = /^#graph/;
 
         // Register our event listeners
         self.registerEvents();

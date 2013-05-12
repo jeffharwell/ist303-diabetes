@@ -2,6 +2,9 @@
     <head>
         <script src="css/source-sans-pro.js"></script>
         <link href="css/styles.css" rel="stylesheet">
+
+        <!-- JqPlot CSS Files -->
+        <link href="lib/jquery.jqplot.min.css" rel="stylesheet">
     </head>
 <body>
 
@@ -20,6 +23,7 @@
     <a href='#enter/physical' class="buttonlarge">Enter Physical Activity</a>
     <a href='#view/glucose' class="buttonlarge">View Glucose Data</a><br/>
     <a href='#view/physical' class="buttonlarge">View Physical Activity</a>
+    <a href='#graph' class="buttonlarge">Graph Your Data</a>
 </script>
 
 <script id="glucosedataentry-tpl" type="text/x-handlebars-template">
@@ -131,6 +135,32 @@
 </script>
 
 
+<script id="datagraphtemplate-tpl" type="text/x-handlebars-template">
+    <div class='header'><a href='#' class="button header-button header-button-left">Back</a><h1>Graph View</h1></div>
+    <div class="scroll">
+            Days of History: <select id="days_of_history">
+                                <option value="all">ALL</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="60">60</option>
+                             </select>
+            <b>
+            <div id="graph-wrapper">
+                <!-- <div id="chartdiv" style="height:400px; width:300px; "></div> -->
+                <div id="chartdiv"></div>
+            </div>
+    </div>
+</script>
+
+
 <!-- Order is important here -->
 <script src="phonegap.js"></script>
 <script src="lib/jquery-1.9.1.min.js"></script>
@@ -138,12 +168,19 @@
 <script src="js/storage/diabetes-ls-store.js"></script>
 <script src="lib/handlebars.js"></script>
 <script src="lib/iscroll.js"></script>
+<!-- The JqPlot Libraries -->
+<script src="lib/jquery.jqplot.min.js"></script>
+<script src="lib/jqplot.dateAxisRenderer.min.js"></script>
+<script src="lib/jqplot.categoryAxisRenderer.min.js"></script>
+<script src="lib/jqplot.pointLabels.min.js"></script>
+<script src="lib/jqplot.enhancedLegendRenderer.min.js"></script>
 <!-- Must define templates before main.js or Handlebars will error out -->
 <script src="js/HomeView.js"></script>
 <script src="js/EmployeeView.js"></script>
 <script src="js/GlucoseDataEntryView.js"></script>
 <script src="js/PhysicalDataEntryView.js"></script>
 <script src="js/DataTableView.js"></script>
+<script src="js/DataGraphView.js"></script>
 <script src="js/Custom.js"></script>
 <script src="js/main.js"></script>
 
