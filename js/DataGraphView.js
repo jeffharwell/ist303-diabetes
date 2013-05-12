@@ -68,8 +68,9 @@ var DataGraphView = function(context) {
             context['contentStore'].getGlucosePhysicalData(context, function(callback_context) {
                 new DataGraphView(callback_context).drawGraph()});
         });
-
-        window.addEventListener("orientationchange", function(event) {
+        var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+        window.addEventListener(orientationEvent, function(event) {
                     if ($('#chartdiv').length == 0) {
                         console.log("Removing Orientation Event Listener");
                         this.removeEventListener("orientationchange",arguments.callee,false);
