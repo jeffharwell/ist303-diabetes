@@ -28,6 +28,15 @@ var DiabetesStorageStore = function(successCallback, errorCallback) {
 
     this.getAllGlucoseLevel = function(context, callback) {
         var d = JSON.parse(window.localStorage.getItem("glucoselevels"));
+        getAllData(context, callback, d);
+    }
+
+    this.getAllPhysicalActivity = function(context, callback) {
+        var d = JSON.parse(window.localStorage.getItem("physicalactivity"));
+        getAllData(context, callback, d);
+    }
+
+    var getAllData = function(context, callback, d) {
         context['data'] = d;
         for (var i = 0; i < context.data.length; i++) {
             //console.log("Got Data "+d[i].timestamp+" "+d[i].level);
@@ -83,6 +92,48 @@ var DiabetesStorageStore = function(successCallback, errorCallback) {
         callLater(callback, context);
     }
 
+    this.getRangePhysicalActivity = function(context, callback) {
+        var days_to_show = context['daysOfData'];
+        // First get the current unix timestamp
+        var current_timestamp = Date.now()
+        // Ok, now pull our days_to_show off of the current timestamp
+        var cutoff_timestamp = current_timestamp - days_to_show*24*60*60*1000
+
+        var d = JSON.parse(window.localStorage.getItem("physicalactivity"));
+        context['data'] = [];
+        for (var i = 0; i < d.length; i++) {
+            // Check our cutoff, skip if it is before
+            // of course if we are to show 'all' then we don't skip anything
+            if (days_to_show != "all" && d[i].timestamp < cutoff_timestamp) {
+                continue;
+            }
+
+            var timestamp_obj = new Date(d[i].timestamp);
+            d[i]['timestamp_object'] = timestamp_obj;
+
+            // Build our user friendly date string
+            var year = timestamp_obj.getFullYear();
+            var month = timestamp_obj.getMonth() + 1;
+            var day = timestamp_obj.getDate();
+            var hour_and_suffix = amPm(timestamp_obj.getHours());
+            var hour = hour_and_suffix.hour;
+            var suffix = hour_and_suffix.suffix;
+            var minute = timestamp_obj.getMinutes();
+            d[i]['timestamp_string'] = month+"/"+day+"/"+year+" "+padZero(hour, 2)+":"+padZero(minute, 2)+" "+suffix;
+
+            context['data'].push(d[i]);
+        }
+        context['data'].reverse()
+        callLater(callback, context);
+    }
+
+    this.writePhysicalActivity = function(context, callback) {
+        console.log("Sanity check in writePhysicalActivity");
+        datetime_obj = new Date(context['timestamp']);
+        console.log("Timestamp "+context['timestamp']+" = "+datetime_obj);
+        addPhysicalActivity(context['intensity'], context['type'], context['timestamp'], callback)
+    }
+
     this.writeGlucoseLevel = function(context, callback) {
         var glucose_value = context['glucoseValue'];
         var prandial_relationship = context['prandialRelationship'];
@@ -107,7 +158,7 @@ var DiabetesStorageStore = function(successCallback, errorCallback) {
         //console.log("Got hour "+hour);
         var new_hour;
         var suffix = 'am';
-        if (hour > 12) {
+        if (hour >= 12) {
             new_hour = hour - 12;
             suffix = 'pm';
         } else {
@@ -143,8 +194,8 @@ var DiabetesStorageStore = function(successCallback, errorCallback) {
         callLater(callback);
     }
 
-    var addPhysicalLevel = function(value, type, timestamp, callback) {
-        var data = {"level": value, "type": type, "timestamp": timestamp};
+    var addPhysicalActivity = function(intensity, type, timestamp, callback) {
+        var data = {"intensity": intensity, "type": type, "timestamp": timestamp};
         addData(data, "physicalactivity");
         callLater(callback);
     }

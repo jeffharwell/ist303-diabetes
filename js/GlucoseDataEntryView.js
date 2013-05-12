@@ -1,4 +1,4 @@
-var DataEntryView = function(context) {
+var GlucoseDataEntryView = function(context) {
 
     this.renderToBody = function() {
         if (context.entryType == "glucose") {
@@ -13,7 +13,7 @@ var DataEntryView = function(context) {
         }
         console.log("Going to render entry for "+context.entryType);
 
-        $('body').html(DataEntryView.template(context));
+        $('body').html(GlucoseDataEntryView.template(context));
         this.bindListeners();
     };
 
@@ -41,17 +41,7 @@ var DataEntryView = function(context) {
         this.el = $('<div/>');
     };
 
-    this.buttonlistener = function(event) {
-        console.log("You clicked me");
-        //var v = $('#value_input').value();
-        //console.log("Got Value: "+v);
-        //var prandial_relationship = $('select').value();
-        //console.log("Value: "+v+" Prandial Relationship: "+prandial_relationship);
-        console.log("Done");
-        //context['contentStore'].saveGlucoseValue(value, prandial_relationship)
-    };
-
     this.initialize();
 }
 
-DataEntryView.template = Handlebars.compile($("#dataentry-tpl").html());
+GlucoseDataEntryView.template = Handlebars.compile($("#glucosedataentry-tpl").html());

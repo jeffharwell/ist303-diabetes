@@ -35,7 +35,11 @@ var app = {
             console.log('Looking for '+match[1]);
             var context = {entryType: match[1]};
             context['contentStore'] = this.store;
-            new DataEntryView(context).renderToBody();
+            if (match[1] == "glucose") {
+                new GlucoseDataEntryView(context).renderToBody();
+            } else if (match[1] == "physical") {
+                new PhysicalDataEntryView(context).renderToBody();
+            }
             return;
         }
 
@@ -47,9 +51,15 @@ var app = {
             console.log('Looking for context '+match[1]);
             var context = {entryType: match[1]}
             context['contentStore'] = this.store;
-            this.store.getAllGlucoseLevel(context, function(callback_context) {
-                new DataTableView(callback_context).render();
-            });
+            if (match[1] == "glucose") {
+                this.store.getAllGlucoseLevel(context, function(callback_context) {
+                    new DataTableView(callback_context).render();
+                });
+            } else if (match[1] == "physical") {
+                this.store.getAllPhysicalActivity(context, function(callback_context) {
+                    new DataTableView(callback_context).render();
+                });
+            }
             return;
         }
     },
