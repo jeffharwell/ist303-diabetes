@@ -75,7 +75,15 @@ var DataGraphView = function(context) {
                         console.log("Removing Orientation Event Listener");
                         this.removeEventListener("orientationchange",arguments.callee,false);
                     } else {
-                        self.drawGraph()
+                        // Interesting, on Android the orientation change event happens before the
+                        // div has a chance to re-size so the graph re-renders in the old size.
+                        // To fix this we explicitly set the width of the div before we re-draw the
+                        // chart.
+                        var new_width = $(window).width();
+                        console.log("Window width = "+new_width+"px");
+                        $('#chartdiv').css("width",new_width + "px");
+                        console.log("chartdiv width = "+$('#chartdiv').width()+"px");
+                        self.drawGraph();
                     }
                 },
             false
