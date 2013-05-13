@@ -69,7 +69,9 @@ var DataGraphView = function(context) {
                 new DataGraphView(callback_context).drawGraph()});
         });
         var supportsOrientationChange = "onorientationchange" in window,
-            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+            //orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+            orientationEvent = "resize";
+        console.log("Adding listener to event \""+orientationEvent+"\"");
         window.addEventListener(orientationEvent, function(event) {
                     if ($('#chartdiv').length == 0) {
                         console.log("Removing Orientation Event Listener");
